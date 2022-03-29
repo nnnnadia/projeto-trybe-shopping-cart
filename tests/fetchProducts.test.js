@@ -17,8 +17,12 @@ describe('1 - Teste a função fecthProducts', () => {
     expect.assertions(1);
     await expect(fetchProducts('computador')).resolves.toEqual(computadorSearch);
   });
-  it('Retorna uma mensagem de erro \'You must provide an url\' quando chamada vazia', () => {
-    expect.assertions(1);
-    await expect(fetchProducts()).resolves.toEqual(new Error('You must provide an url'));
+  it('Retorna uma mensagem de erro \'You must provide an url\' quando chamada vazia', async () => {
+    expect.assertions();
+    try {
+      await fetchProducts()
+    } catch (error) {
+      expect(error).toEqual(new Error('You must provide an url'));
+    }
   });
 });
