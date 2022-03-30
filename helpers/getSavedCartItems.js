@@ -1,10 +1,11 @@
 const getSavedCartItems = () => {
   const savedCartItems = localStorage.getItem('cartItems');
-  if (savedCartItems === null || savedCartItems === '') {
-    localStorage.setItem('cartItems', []);
-    return [];
-  }
-  return savedCartItems;
+  return !savedCartItems ? [] : savedCartItems;
+  // if (savedCartItems !== null || savedCartItems === '') {
+  //   localStorage.setItem('cartItems', []);
+  //   return [];
+  // }
+  // return savedCartItems;
 };
 
 if (typeof module !== 'undefined') {
