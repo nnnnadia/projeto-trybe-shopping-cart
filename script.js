@@ -36,9 +36,44 @@ function getItemsToSave() {
   saveCartItems(getCartItems().innerHTML);
 }
 
-function cartItemClickListener(event) {
+function getEachCartItem() {
+  return document.querySelectorAll('.cart__item');
+}
+
+function getItemsIdsList() {
+  const itemsIdsList = [];
+  [...getEachCartItem()].forEach((item) => {
+    const itemId = /MLB\d+/.exec(item.innerText);
+    itemsIdsList.push(...itemId);
+  });
+  return itemsIdsList;
+}
+
+async function fetchPrices(itemsIdsList) {
+  const itemsPromisesList = itemsIdsList.map((id) => {
+    return fetchItem(id);
+  });
+  const rawItemsList = await Promise.all(itemsPromisesList);
+  const itemsPricesList = rawItemsList.map((item) => item.price)
+  return itemsPricesList;
+}
+
+async function getTotalPrice(toggle) {
+  const totalPrice = document.querySelector('.total-price');
+  if (toggle) {
+    const itemsIdsList = getItemsIdsList();
+    const itemsPricesList = await fetchPrices(itemsIdsList);
+    const totalBill = itemsPricesList.reduce((acc, curr) => acc + curr);
+    totalPrice.innerText = `${totalBill}`;
+    return;
+  }
+  totalPrice.innerText = '0,00';
+}
+
+async function cartItemClickListener(event) {
   event.target.remove();
   getItemsToSave();
+  await getTotalPrice(true);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -55,6 +90,7 @@ async function addItemToCart(event) {
   const cartItem = createCartItemElement({ sku, name, salePrice });
   getCartItems().appendChild(cartItem);
   getItemsToSave();
+  await getTotalPrice(true);
 }
 
 function createButtonsEventListeners() {
@@ -75,21 +111,15 @@ async function loadProducts() {
   createButtonsEventListeners();
 }
 
-function loadCartItems() {
-  const savedCartItems = localStorage.getItem('cartItems');
-  if (savedCartItems === null) {
-    localStorage.setItem('cartItems', JSON.stringify([]));
-    return;
-  }
-  getCartItems().innerHTML = savedCartItems;
-  document.querySelectorAll('.cart__item').forEach((item) => {
-    item.addEventListener('click', cartItemClickListener);
-  });
+async function loadLastCart() {
+  getSavedCartItems();
+  await getTotalPrice(true);
 }
 
 function emptyCart() {
   getCartItems().innerHTML = '';
   getItemsToSave();
+  getTotalPrice(false);
 }
 
 function loadEmptyButton() {
@@ -99,6 +129,6 @@ function loadEmptyButton() {
 
 window.onload = () => {
   loadProducts();
-  loadCartItems();
+  loadLastCart();
   loadEmptyButton();
 };
