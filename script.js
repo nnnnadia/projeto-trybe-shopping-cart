@@ -50,11 +50,9 @@ function getItemsIdsList() {
 }
 
 async function fetchPrices(itemsIdsList) {
-  const itemsPromisesList = itemsIdsList.map((id) => {
-    return fetchItem(id);
-  });
+  const itemsPromisesList = itemsIdsList.map((id) => fetchItem(id));
   const rawItemsList = await Promise.all(itemsPromisesList);
-  const itemsPricesList = rawItemsList.map((item) => item.price)
+  const itemsPricesList = rawItemsList.map((item) => item.price);
   return itemsPricesList;
 }
 
