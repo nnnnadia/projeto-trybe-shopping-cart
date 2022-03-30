@@ -110,7 +110,11 @@ async function loadProducts() {
 }
 
 async function loadLastCart() {
-  getSavedCartItems();
+  const savedCartItems = getSavedCartItems();
+  getCartItems().innerHTML = savedCartItems;
+  getEachCartItem().forEach((item) => {
+    item.addEventListener('click', cartItemClickListener);
+  });
   await getTotalPrice(true);
 }
 

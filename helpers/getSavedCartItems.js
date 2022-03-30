@@ -2,12 +2,9 @@ const getSavedCartItems = () => {
   const savedCartItems = localStorage.getItem('cartItems');
   if (savedCartItems === null || savedCartItems === '') {
     localStorage.setItem('cartItems', []);
-    return;
+    return [];
   }
-  getCartItems().innerHTML = savedCartItems;
-  getEachCartItem().forEach((item) => {
-    item.addEventListener('click', cartItemClickListener);
-  });
+  return savedCartItems;
 };
 
 if (typeof module !== 'undefined') {
