@@ -36,10 +36,16 @@ function getItemsToSave() {
   saveCartItems(getCartItems().innerHTML);
 }
 
+/*
+  getEachCartItem seleciona todos os itens do carrinho.
+*/
 function getEachCartItem() {
   return document.querySelectorAll('.cart__item');
 }
 
+/*
+  getItemsIdsList transforma o texto cada item do carrinho em uma lista de ids utilizando expressões ragulares.
+*/
 function getItemsIdsList() {
   const itemsIdsList = [];
   [...getEachCartItem()].forEach((item) => {
@@ -49,6 +55,10 @@ function getItemsIdsList() {
   return itemsIdsList;
 }
 
+/*
+  fetchPrices recebe uma lista ids, para cada id faz uma busca na api por informações que depois apenas o preço é filtrado, retornando assim uma lista de preços.
+  Pelas buscas serem assíncronas esta lista de Promises precisa ser resolvida antes dos próximos passos. `Promisse.all` itera por cada promessa até que todas estejam resolvidas.
+*/
 async function fetchPrices(itemsIdsList) {
   const itemsPromisesList = itemsIdsList.map((id) => fetchItem(id));
   const rawItemsList = await Promise.all(itemsPromisesList);
@@ -56,6 +66,11 @@ async function fetchPrices(itemsIdsList) {
   return itemsPricesList;
 }
 
+/*
+  getTotalPrice possui uma tomada pra quando a solução é assíncrona ou não.
+  Quando é assíncrona ela gera uma lista de ids para servir de busca para a criação de uma lista de preços e então essa lista é reduzida no valor final que é exibida na página.
+  Quando é síncrona (ou seja, o carrinho está vazio) é exibido na página o valor total zerado.
+*/
 async function getTotalPrice(toggle) {
   const totalPrice = document.querySelector('.total-price');
   if (toggle) {
