@@ -98,6 +98,10 @@ function createButtonsEventListeners() {
   });
 }
 
+/*
+  loadProducts consulta uma busca com 'computador' do que é retornado utiliza a chave results que é uma lista de produtos.
+  Para cada produto são extraidos e renomeados 3 valores (sku, name, image) para a criação de um nove elemento e inserção na página.
+*/
 async function loadProducts() {
   const { results } = await fetchProducts('computador');
   const items = document.querySelector('.items');
