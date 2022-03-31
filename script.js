@@ -83,6 +83,9 @@ async function getTotalPrice(toggle) {
   totalPrice.innerText = '0,00';
 }
 
+/*
+  cartItemClickListener remove o item do carrinho que foi clicado, atualiza o conteúdo salvo e atualiza o preço.
+*/
 async function cartItemClickListener(event) {
   event.target.remove();
   getItemsToSave();
