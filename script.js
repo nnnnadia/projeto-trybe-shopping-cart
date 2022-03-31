@@ -113,6 +113,16 @@ function createButtonsEventListeners() {
   });
 }
 
+function showLoading(toggle) {
+  if (toggle) {
+    const items = document.querySelector('.items');
+    items.appendChild(createCustomElement('p', 'loading', 'carregando...'));
+  } else {
+    const loadingText = document.querySelector('.loading');
+    loadingText.remove();
+  }
+}
+
 /*
   loadProducts consulta uma busca com 'computador' do que é retornado utiliza a chave results que é uma lista de produtos.
   Para cada produto são extraidos e renomeados 3 valores (sku, name, image) para a criação de um nove elemento e inserção na página.
@@ -148,8 +158,10 @@ function loadEmptyButton() {
   emptyButton.addEventListener('click', emptyCart);
 }
 
-window.onload = () => {
-  loadProducts();
+window.onload = async () => {
+  showLoading(true);
+  await loadProducts();
+  showLoading(false);
   loadLastCart();
   loadEmptyButton();
 };
