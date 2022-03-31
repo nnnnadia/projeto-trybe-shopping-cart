@@ -97,6 +97,9 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+/*
+  addItemToCart pega o id do item clicado e depois busca as informações dele na api, a partir desses dados ele cria este item no carrinho e então salva os itens e atualiza o proço total.
+*/
 async function addItemToCart(event) {
   const itemId = getSkuFromProductItem(event.target.parentElement);
   const { id: sku, title: name, price: salePrice } = await fetchItem(itemId);
@@ -106,6 +109,9 @@ async function addItemToCart(event) {
   await getTotalPrice(true);
 }
 
+/*
+  createButtonsEventListeners pega todos os botões de adicionar ao carrinho da página e adiciona event listeners para cada um.
+*/
 function createButtonsEventListeners() {
   const buttons = document.querySelectorAll('.item__add');
   buttons.forEach((button) => {
