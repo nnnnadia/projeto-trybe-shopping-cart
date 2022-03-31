@@ -32,6 +32,9 @@ function getCartItems() {
   return document.querySelector('.cart__items');
 }
 
+/*
+  getItemsToSave pega o HTML do carrinho e o salva.
+*/
 function getItemsToSave() {
   saveCartItems(getCartItems().innerHTML);
 }
@@ -147,6 +150,9 @@ async function loadProducts() {
   createButtonsEventListeners();
 }
 
+/*
+  loadLastCart pega os dados salvos (HTML) e coloca no carrinho, depois para cada item no carrinho é adicionado event listeners e o valor total do carrinho é atualizado.
+*/
 async function loadLastCart() {
   const savedCartItems = getSavedCartItems();
   getCartItems().innerHTML = savedCartItems;
