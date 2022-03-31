@@ -162,12 +162,18 @@ async function loadLastCart() {
   await getTotalPrice(true);
 }
 
+/*
+  emptyCart apaga o conteúdo HTML do carrinho e depois salva e atualiza o valor total.
+*/
 function emptyCart() {
   getCartItems().innerHTML = '';
   getItemsToSave();
   getTotalPrice(false);
 }
 
+/*
+  loadEmptyButton adiciona event listener para o botão de esvaziar o carrinho.
+*/
 function loadEmptyButton() {
   const emptyButton = document.querySelector('.empty-cart');
   emptyButton.addEventListener('click', emptyCart);
