@@ -125,6 +125,9 @@ function createButtonsEventListeners() {
   });
 }
 
+/*
+  showLoading possui uma tomada, quando recebe true mostra texto indicando carregamento, quando recebe false retira o texto.
+*/
 function showLoading(toggle) {
   if (toggle) {
     const items = document.querySelector('.items');
